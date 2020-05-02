@@ -1,9 +1,14 @@
+import 'package:bmi_calculator/widgets/icon_content.dart';
+import 'package:bmi_calculator/widgets/reuseable_card.dart';
+import 'package:bmi_calculator/widgets/round_icon_button.dart';
+
+import '../widgets/bottom_button.dart';
+import 'results_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'icon_content.dart';
-import 'reuseable_card.dart';
-import 'constants.dart';
+import '../constants.dart';
+import 'package:bmi_calculator/bmi_brain.dart';
 
 enum Gender { male, female }
 
@@ -17,9 +22,9 @@ class _InputPageState extends State<InputPage> {
   Color femaleCardColour;
   Gender selectedGender;
 //  double value = 170;
-  double height = 170;
-  int weight = 100;
-  int age = 20;
+  double height = 184;
+  int weight = 80;
+  int age = 27;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -230,50 +235,6 @@ class _InputPageState extends State<InputPage> {
                                   }),
                             ],
                           ),
-                          /*Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(5.0),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0x19FFFFFF),
-                                  ),
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        age--;
-                                      });
-                                    },
-                                    child: Icon(
-                                      FontAwesomeIcons.minus,
-                                      size: 40,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.all(5.0),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0x19FFFFFF),
-                                  ),
-                                  child: FlatButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        age++;
-                                      });
-                                    },
-                                    child: Icon(
-                                      FontAwesomeIcons.plus,
-                                      size: 40,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),*/
                         ],
                       ),
                     ),
@@ -281,40 +242,26 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            Container(
-              color: kMyCalculateColor,
-              width: double.infinity,
-              height: kBottomContainerHeight,
-              child: Center(
-                child: Text(
-                  'CALCULATE YOUR BMI',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xFFFFFFFF),
+            BottomButton(
+              title: 'CALCULATE YOUR BMI',
+              onTap: () {
+                BmiBrain bmiBrain = BmiBrain(height: height, weight: weight);
+                bmiBrain.calculateBmi();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResultsPage(
+                      feedbackKeys: bmiBrain.getFeedbackKeys(),
+                      bmiResultNum: bmiBrain.getBmi(),
+                      feedback: bmiBrain.getFeedback(),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-  final IconData icon;
-  final Function onPressed;
-  RoundIconButton({@required this.icon, @required this.onPressed});
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: onPressed,
-      elevation: 16,
-      fillColor: Color(0x904C4F5E),
-      shape: CircleBorder(),
-      constraints: BoxConstraints.tightFor(width: 56.0, height: 56.0),
-      child: Icon(icon),
     );
   }
 }

@@ -15,3 +15,15 @@ const kNumberTextStyle = TextStyle(
   fontSize: 50,
   fontWeight: FontWeight.w900,
 );
+
+const kYourResultTextStyle = TextStyle(
+  color: Color(0xFFFFFFFF),
+  fontSize: 50,
+  fontWeight: FontWeight.w500,
+);
+
+const kBigNumberTextStyle = TextStyle(
+  color: Colors.white,
+  fontSize: 100,
+  fontWeight: FontWeight.bold,
+);
